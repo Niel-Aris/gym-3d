@@ -36,3 +36,13 @@ body {
   background: #2f63f0;
   box-shadow: 0 0 0 4px rgba(47, 99, 240, 0.2);
 }
+
+.pin small {
+  font-weight: 500;
+  color: #6a7494;
+}
+.pinSel {
+  font-size: 14px;
+  padding: 6px 12px 6px 9px;
+  transform: none;
+}

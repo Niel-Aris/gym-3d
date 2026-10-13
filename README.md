@@ -30,7 +30,15 @@ npm run build && npm start
 | Exploded view | "Exploded" checkbox |
 | Zone labels | "Labels" checkbox |
 
-Deep links: `/?floor=2`, `/?explode=1`, `/?labels=0` (combine with `&`).
+### Interactive stations
+
+- **Click any machine** (in the scene or in the bottom-right list): the camera flies in, blue corner brackets frame it and a card shows the muscles worked, load, reps, who is using it, a progress bar for the current set, usage stats and a coaching tip. `Esc` or the ✕ closes it; the target button re-centres the camera.
+- **Hover** a machine to preview its name and status.
+- **Live simulation:** members start and finish sessions on their own (about 8× real time, clock in the top bar). Treadmill belts, stairmaster steps and bike flywheels animate while in use, and a few members walk the aisles. Two stations are "out of service" to show the orange state.
+- **Status pins** float above every station: green = free, blue = in use, orange = out of service.
+- The data is fake and generated in `src/scene/sim.ts`; per-machine info (muscles, load ranges, tips) lives in `src/scene/stations.ts`.
+
+Deep links: `/?floor=2`, `/?explode=1`, `/?labels=0`, `/?select=F1-03` (combine with `&`). `?snap` skips animations (handy for screenshots).
 
 ## Project map
 
@@ -39,6 +47,10 @@ src/app/            Next.js shell (page + layout)
 src/components/     GymApp (client wrapper, lazy-loads the scene), Hud (UI overlay)
 src/scene/
   layout.ts         WHAT stands WHERE on each floor – edit this to rearrange equipment
+  stations.ts       station ids + per-machine metadata (muscles, load ranges, tips, where the user sits)
+  sim.ts            fake live data: sessions, sets/rest phases, maintenance
+  Highlight.tsx     selection brackets + name pills       People.tsx  members and walkers
+  Equipment.tsx     places stations, click/hover, pins    registry.ts station id -> 3D object
   machines.tsx      upper/lower-body machine models
   cardio.tsx        treadmill, stairmaster, bike
   fixtures.tsx      reception, lockers, dumbbell rack, stairs, rails, props

@@ -5,12 +5,12 @@ import type { Group } from "three";
 import { B } from "./parts";
 import { C, STORY_H, type V3 } from "./theme";
 import { Equipment } from "./Equipment";
-import { FLOOR_1, FLOOR_2 } from "./layout";
+import { Walker } from "./People";
 import {
   Reception, Lockers, LockerBench, DumbbellRack, Mats, PlateTree, Plant, Cooler,
   Stairs, HoleRail, HOLE,
 } from "./fixtures";
-import { useGym } from "./store";
+import { SNAP, useGym } from "./store";
 
 const H = STORY_H;
 const DOOR = { x0: -3.5, x1: -1.5 };
@@ -100,7 +100,7 @@ function UpperSlab() {
 
 function Pin({ pos, children }: { pos: V3; children: string }) {
   return (
-    <Html position={pos} center distanceFactor={15} zIndexRange={[20, 0]} style={{ pointerEvents: "none" }}>
+    <Html position={pos} center zIndexRange={[20, 0]} style={{ pointerEvents: "none" }}>
       <div className="pin">
         <span className="pinDot" />
         {children}
@@ -111,7 +111,7 @@ function Pin({ pos, children }: { pos: V3; children: string }) {
 
 /* ───────────────────────── floors ───────────────────────── */
 
-function GroundFloor({ labels }: { labels: boolean }) {
+function GroundFloor({ labels, interactive }: { labels: boolean; interactive: boolean }) {
   return (
     <group>
       <B pos={[0, -0.2, 0]} size={[16.6, 0.4, 12.6]} color={C.floor} r={0.02} />
@@ -139,7 +139,10 @@ function GroundFloor({ labels }: { labels: boolean }) {
       <group position={[-7.2, 0, -2.3]}><Plant /></group>
       <group position={[-4.0, 0, 5.4]}><Plant scale={1.2} /></group>
       <group position={[-1.0, 0, -4.7]}><PlateTree /></group>
-      <group position={[0, 0, 0]}><Equipment items={FLOOR_1} /></group>
+      <Equipment floor={0} interactive={interactive} />
+      <Walker path={[[-6.3, -0.4], [-3.2, -0.4], [-3.2, 2.0], [-6.3, 2.0]]} offset={2} shirt={C.orange} />
+      <Walker path={[[-2.4, -0.8], [6.0, -0.8]]} pingPong speed={0.8} shirt={C.teal} />
+      <Walker path={[[-0.5, 5.0], [6.5, 5.0]]} pingPong speed={0.7} offset={5} shirt={C.yellow} />
       <Stairs />
 
       {labels && (
@@ -156,7 +159,7 @@ function GroundFloor({ labels }: { labels: boolean }) {
   );
 }
 
-function UpperFloor({ labels }: { labels: boolean }) {
+function UpperFloor({ labels, interactive }: { labels: boolean; interactive: boolean }) {
   return (
     <group>
       <UpperSlab />
@@ -164,7 +167,9 @@ function UpperFloor({ labels }: { labels: boolean }) {
       <B pos={[-0.5, 0.014, -4.6]} size={[13.4, 0.026, 2.0]} color={C.carpet} r={0.005} shadow={false} />
       <Shell ground={false} />
       <HoleRail />
-      <group position={[0, 0, 0]}><Equipment items={FLOOR_2} /></group>
+      <Equipment floor={1} interactive={interactive} />
+      <Walker path={[[-7.0, 0.1], [5.5, 0.1]]} pingPong speed={0.8} shirt={C.red} />
+      <Walker path={[[-2.5, 5.2], [5.8, 5.2]]} pingPong speed={0.7} offset={4} shirt={C.blueLight} />
       <group position={[1.0, 0, 4.2]}><Mats /></group>
       <group position={[-1.0, 0, 4.4]}><PlateTree /></group>
       <group position={[-7.3, 0, 4.6]}><Cooler /></group>
@@ -188,13 +193,13 @@ export function Building() {
   const upper = useRef<Group>(null);
   const story = useGym((s) => s.story);
   const explode = useGym((s) => s.explode);
-  const labels = useGym((s) => s.labels);
+  const labels = useGym((s) => s.labels && s.selected === null);
 
   useFrame((_, dt) => {
     const g = upper.current;
     if (!g) return;
     const lift = explode ? 5.5 : story === 1 ? 0 : 10;
-    const k = 1 - Math.exp(-Math.min(dt, 0.05) * 5);
+    const k = SNAP ? 1 : 1 - Math.exp(-Math.min(dt, 0.05) * 5);
     g.position.y += (H + lift - g.position.y) * k;
     // fully hidden once it has flown out of the way
     g.visible = lift < 9 || g.position.y < H + 9.5;
@@ -202,9 +207,9 @@ export function Building() {
 
   return (
     <group>
-      <GroundFloor labels={labels && (story === 0 || explode)} />
+      <GroundFloor labels={labels && (story === 0 || explode)} interactive={story === 0 || explode} />
       <group ref={upper} position={[0, H + 10, 0]} visible={false}>
-        <UpperFloor labels={labels && (story === 1 || explode)} />
+        <UpperFloor labels={labels && (story === 1 || explode)} interactive={story === 1 || explode} />
       </group>
     </group>
   );
