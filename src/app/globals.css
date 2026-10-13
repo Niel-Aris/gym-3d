@@ -1,0 +1,38 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #e6ecfb;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Floating zone labels rendered by drei <Html> inside the 3D scene */
+.pin {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 10px;
+  border-radius: 999px;
+  background: #fff;
+  color: #17213d;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(40, 70, 160, 0.25);
+  transform: translateY(-14px);
+}
+.pinDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #2f63f0;
+  box-shadow: 0 0 0 4px rgba(47, 99, 240, 0.2);
+}

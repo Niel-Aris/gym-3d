@@ -1,0 +1,162 @@
+.root {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #e6ecfb;
+  color: #17213d;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  color: #2f63f0;
+}
+
+.card {
+  position: absolute;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(40, 70, 160, 0.14);
+  backdrop-filter: blur(6px);
+}
+
+.brand {
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px 10px 12px;
+}
+.brand strong { display: block; font-size: 18px; letter-spacing: -0.01em; }
+.brand span { font-size: 12px; color: #6a7494; }
+.logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #5b86f7, #1e44b8);
+  position: relative;
+}
+.logo::after {
+  content: "";
+  position: absolute;
+  inset: 11px;
+  background: #fff;
+  border-radius: 3px;
+  transform: rotate(45deg) scale(0.8);
+}
+
+.stat, .stat2 {
+  top: 16px;
+  padding: 10px 18px;
+  display: grid;
+  gap: 0;
+  min-width: 150px;
+}
+.stat { left: 330px; }
+.stat2 { left: 500px; }
+.stat span, .stat2 span { font-size: 11px; color: #6a7494; }
+.stat strong, .stat2 strong { font-size: 22px; line-height: 1.2; }
+.stat em, .stat2 em { font-style: normal; font-size: 11px; color: #2f63f0; font-weight: 600; }
+
+.tools {
+  top: 96px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  gap: 2px;
+}
+.tools hr, .stories hr { border: 0; height: 1px; background: #e3e8f6; margin: 4px 6px; }
+.stories hr { width: 1px; height: 28px; margin: 0 4px; }
+.tools button {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #17213d;
+}
+.tools button:hover { background: #eef2fd; color: #2f63f0; }
+
+.panel {
+  top: 16px;
+  right: 76px;
+  width: 270px;
+  padding: 14px 16px 12px;
+  max-height: calc(100% - 140px);
+  overflow: auto;
+}
+.panelHead h2 { margin: 2px 0 10px; font-size: 20px; letter-spacing: -0.01em; }
+.eyebrow { font-size: 11px; font-weight: 700; color: #2f63f0; letter-spacing: 0.08em; }
+.panel ul { list-style: none; margin: 0; padding: 0; }
+.panel li {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-top: 1px solid #edf0fa;
+  font-size: 13px;
+}
+.panel li i { width: 10px; height: 10px; border-radius: 3px; }
+.panel li b { font-variant-numeric: tabular-nums; }
+.extra { color: #4a5578; }
+.hint { margin: 10px 0 0; font-size: 11px; color: #8a93b0; }
+
+.stories {
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  white-space: nowrap;
+}
+.stories button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: #eef2fd;
+  color: #1e44b8;
+  font: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.stories button:hover:not(:disabled) { background: #dde6fc; }
+.stories button:disabled { opacity: 0.4; cursor: default; }
+.chips { display: flex; gap: 6px; }
+.chips button { flex-direction: column; align-items: flex-start; gap: 0; background: transparent; color: #4a5578; }
+.chips button b { font-size: 13px; }
+.chips button small { font-size: 11px; font-weight: 500; color: #8a93b0; }
+.chips button.active { background: #2f63f0; color: #fff; }
+.chips button.active small { color: #d6e0ff; }
+.toggle { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #4a5578; cursor: pointer; padding: 0 6px; }
+.toggle input { accent-color: #2f63f0; }
+
+@media (max-width: 1000px) {
+  .stat, .stat2 { display: none; }
+  .panel { display: none; }
+}
+@media (max-width: 640px) {
+  .brand span { display: none; }
+  .stories { flex-wrap: wrap; justify-content: center; width: calc(100% - 24px); white-space: normal; }
+}
